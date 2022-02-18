@@ -22,6 +22,13 @@ func GetBook(c *fiber.Ctx) error {
 	var book models.Book
 
 	db.Find(&book, id)
+
+	if (book.Title == "") {
+		c.Status(400).JSON(fiber.Map{
+			"error": "Didn't find book with that ID",
+		})
+	}
+
 	c.JSON(book)
 
 	return nil
